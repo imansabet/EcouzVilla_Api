@@ -9,13 +9,22 @@ namespace EcouzVilla_API.Controllers
     [ApiController]
     public class VillaAPIController : ControllerBase
     {
+        private readonly ILogger<VillaAPIController> logger;
+
+        public VillaAPIController(ILogger<VillaAPIController> _logger)
+        {   
+            
+            logger = _logger;
+        }
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<IEnumerator<VillaDTO>> GetVillas()
         {
+            logger.LogInformation("Getting all villas");
             return Ok();
 
         }
+
 
         [HttpGet("{id:int}", Name = "GetVilla")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -25,6 +34,8 @@ namespace EcouzVilla_API.Controllers
         {
             if (id == 0)
             {
+                logger.LogError("Get Villa Error with Id : " + id);
+
                 return BadRequest();
             }
             if (villa == null)
