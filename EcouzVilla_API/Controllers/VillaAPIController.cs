@@ -15,7 +15,8 @@ namespace EcouzVilla_API.Controllers
             return Ok();
 
         }
-        [HttpGet("{id:int}")]
+
+        [HttpGet("{id:int}",Name ="GetVilla")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -31,5 +32,24 @@ namespace EcouzVilla_API.Controllers
             }
             return Ok();
         }
+
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult<VillaDTO> CreateVilla ([FromBody]VillaDTO villaDTO)
+        {
+            
+            if(villaDTO == null)
+            {
+                return BadRequest(villaDTO);
+            }
+            if (villaDTO.Id > 0)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            return CreatedAtRoute(nameof(GetVilla), villaDTO, new { id = villaDTO.Id });
+        } 
     }
 }
