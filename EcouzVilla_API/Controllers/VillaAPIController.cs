@@ -1,5 +1,6 @@
 ﻿using EcouzVilla_API.Models.Dto;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcouzVilla_API.Controllers
@@ -16,13 +17,13 @@ namespace EcouzVilla_API.Controllers
 
         }
 
-        [HttpGet("{id:int}",Name ="GetVilla")]
+        [HttpGet("{id:int}", Name = "GetVilla")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<VillaDTO> GetVilla(int id)
         {
-            if(id == 0)
+            if (id == 0)
             {
                 return BadRequest();
             }
@@ -38,10 +39,10 @@ namespace EcouzVilla_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<VillaDTO> CreateVilla ([FromBody]VillaDTO villaDTO)
+        public ActionResult<VillaDTO> CreateVilla([FromBody] VillaDTO villaDTO)
         {
-            
-            if(villaDTO == null)
+
+            if (villaDTO == null)
             {
                 return BadRequest(villaDTO);
             }
@@ -63,19 +64,19 @@ namespace EcouzVilla_API.Controllers
             {
                 return BadRequest();
             }
-            if(villa == null)
+            if (villa == null)
             {
                 return NotFound();
             }
             return NoContent();
         }
 
-        [HttpDelete("{id:int}", Name = "UpdateVilla")]
+        [HttpPut("{id:int}", Name = "UpdateVilla")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult UpdateVilla(int id, [FromBody] VillaDTO villaDTO)
         {
-            if(villaDTO == null || id != villaDTO.Id)
+            if (villaDTO == null || id != villaDTO.Id)
             {
                 return BadRequest();
             }
@@ -86,5 +87,29 @@ namespace EcouzVilla_API.Controllers
 
             return NoContent();
         }
+
+        [HttpPatch("{id:int}", Name = "UpdatePartialVilla")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult UpdatePartialVilla(int id, JsonPatchDocument<VillaDTO> patchDTO )
+        {
+            if(patchDTO == null || id == 0)
+            {
+                return BadRequest();
+            }
+            var villa = null;
+            if (villa == null)
+            {
+                return BadRequest();
+            }
+            patchDTO.ApplyTo(villa, ModelState);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return NoContent();
+
+        }
+
     }
 }
