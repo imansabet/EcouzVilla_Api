@@ -9,14 +9,23 @@ namespace EcouzVilla_API.Controllers
     public class VillaAPIController : ControllerBase
     {
         [HttpGet]
-        public IEnumerator<VillaDTO> GetVillas()
+        public ActionResult<IEnumerator<VillaDTO>> GetVillas()
         {
+            return Ok();
 
         }
         [HttpGet]
-        public VillaDTO GetVilla(int id)
+        public ActionResult<VillaDTO> GetVilla(int id)
         {
-
+            if(id == 0)
+            {
+                return BadRequest();
+            }
+            if (villa == null)
+            {
+                return NotFound();
+            }
+            return Ok();
         }
     }
 }
