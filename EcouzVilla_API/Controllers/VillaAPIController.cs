@@ -50,6 +50,24 @@ namespace EcouzVilla_API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
             return CreatedAtRoute(nameof(GetVilla), villaDTO, new { id = villaDTO.Id });
-        } 
+        }
+
+
+        [HttpDelete("{id:int}", Name = "DeleteVilla")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult DeleteVilla(int id)
+        {
+            if (id == 0)
+            {
+                return BadRequest();
+            }
+            if(villa == null)
+            {
+                return NotFound();
+            }
+            return NoContent();
+        }
     }
 }
