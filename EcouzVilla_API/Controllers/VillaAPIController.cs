@@ -5,6 +5,9 @@ using EcouzVilla_API.Models.Dto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EcouzVilla_API.Controllers
 {
@@ -15,20 +18,30 @@ namespace EcouzVilla_API.Controllers
         private readonly ApplicationDbContext _db;
         private readonly ILogging _logger;
 
-        public VillaAPIController(ILogging logger,ApplicationDbContext db)
+        public VillaAPIController(ILogging logger, ApplicationDbContext db)
         {
             _db = db;
             _logger = logger;
         }
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<IEnumerator<VillaDTO>> GetVillas()
+        public ActionResult<IEnumerable<VillaDTO>> GetVillas()
         {
             _logger.Log("Getting all villas", "");
-            return Ok(_db.Villas.ToList());
-
+            var villas = _db.Villas.Select(villa => new VillaDTO
+            {
+                Amenity = villa.Amenity,
+                Details = villa.Details,
+                Id = villa.Id,
+                ImageUrl = villa.ImageUrl,
+                Name = villa.Name,
+                Occupancy = villa.Occupancy,
+                Rate = villa.Rate,
+                Sqft = villa.Sqft
+            }).ToList();
+            return Ok(villas);
         }
-
 
         [HttpGet("{id:int}", Name = "GetVilla")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -39,7 +52,6 @@ namespace EcouzVilla_API.Controllers
             if (id == 0)
             {
                 _logger.Log("Get Villa Error with Id : " + id, "error");
-
                 return BadRequest();
             }
             var villa = _db.Villas.FirstOrDefault(u => u.Id == id);
@@ -47,9 +59,19 @@ namespace EcouzVilla_API.Controllers
             {
                 return NotFound();
             }
-            return Ok(villa);
+            var villaDTO = new VillaDTO
+            {
+                Amenity = villa.Amenity,
+                Details = villa.Details,
+                Id = villa.Id,
+                ImageUrl = villa.ImageUrl,
+                Name = villa.Name,
+                Occupancy = villa.Occupancy,
+                Rate = villa.Rate,
+                Sqft = villa.Sqft
+            };
+            return Ok(villaDTO);
         }
-
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -57,8 +79,7 @@ namespace EcouzVilla_API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult<VillaDTO> CreateVilla([FromBody] VillaDTO villaDTO)
         {
-
-            if(_db.Villas.FirstOrDefault(u=>u.Name.ToLower() == villaDTO.Name.ToLower()) != null)
+            if (_db.Villas.FirstOrDefault(u => u.Name.ToLower() == villaDTO.Name.ToLower()) != null)
             {
                 ModelState.AddModelError("CustomerError", "Villa Already Exists!");
                 return BadRequest(ModelState);
@@ -85,9 +106,8 @@ namespace EcouzVilla_API.Controllers
             _db.Villas.Add(model);
             _db.SaveChanges();
 
-            return CreatedAtRoute(nameof(GetVilla), villaDTO, new { id = villaDTO.Id });
+            return CreatedAtRoute(nameof(GetVilla), new { id = villaDTO.Id }, villaDTO);
         }
-
 
         [HttpDelete("{id:int}", Name = "DeleteVilla")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -145,8 +165,11 @@ namespace EcouzVilla_API.Controllers
             {
                 return BadRequest();
             }
-            var villa = _db.Villas.FirstOrDefault(u => u.Id == id);
-
+            var villa = _db.Villas.AsNoTracking().FirstOrDefault(u => u.Id == id);
+            if (villa == null)
+            {
+                return BadRequest();
+            }
             VillaDTO villaDTO = new()
             {
                 Amenity = villa.Amenity,
@@ -158,11 +181,11 @@ namespace EcouzVilla_API.Controllers
                 Rate = villa.Rate,
                 Sqft = villa.Sqft
             };
-            if (villa == null)
-            {
-                return BadRequest();
-            }
             patchDTO.ApplyTo(villaDTO, ModelState);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             Villa model = new Villa()
             {
                 Amenity = villaDTO.Amenity,
@@ -174,12 +197,9 @@ namespace EcouzVilla_API.Controllers
                 Rate = villaDTO.Rate,
                 Sqft = villaDTO.Sqft
             };
-
             _db.Villas.Update(model);
             _db.SaveChanges();
             return NoContent();
-
         }
-
     }
 }
