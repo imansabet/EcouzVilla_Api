@@ -13,15 +13,15 @@ namespace EcouzVilla_API.Controllers
         private readonly ILogging _logger;
 
         public VillaAPIController(ILogging logger)
-        {   
-            
+        {
+
             _logger = logger;
         }
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<IEnumerator<VillaDTO>> GetVillas()
         {
-            _logger.Log("Getting all villas","");
+            _logger.Log("Getting all villas", "");
             return Ok();
 
         }
@@ -35,14 +35,14 @@ namespace EcouzVilla_API.Controllers
         {
             if (id == 0)
             {
-                _logger.Log("Get Villa Error with Id : " + id,"error");
+                _logger.Log("Get Villa Error with Id : " + id, "error");
 
                 return BadRequest();
             }
-            if (villa == null)
-            {
-                return NotFound();
-            }
+            //if (villa == null)
+            //{
+            //    return NotFound();
+            //}
             return Ok();
         }
 
@@ -76,10 +76,10 @@ namespace EcouzVilla_API.Controllers
             {
                 return BadRequest();
             }
-            if (villa == null)
-            {
-                return NotFound();
-            }
+            //if (villa == null)
+            //{
+            //    return NotFound();
+            //}
             return NoContent();
         }
 
@@ -92,36 +92,36 @@ namespace EcouzVilla_API.Controllers
             {
                 return BadRequest();
             }
-            var villa = null;
-            villa.Name = villaDTO.Name;
-            villa.Sqft = villaDTO.Sqft;
-            villa.Occupancy = villaDTO.Occupancy;
+            //var villa = null;
+            //villa.Name = villaDTO.Name;
+            //villa.Sqft = villaDTO.Sqft;
+            //villa.Occupancy = villaDTO.Occupancy;
 
             return NoContent();
         }
 
-        [HttpPatch("{id:int}", Name = "UpdatePartialVilla")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult UpdatePartialVilla(int id, JsonPatchDocument<VillaDTO> patchDTO )
-        {
-            if(patchDTO == null || id == 0)
-            {
-                return BadRequest();
-            }
-            var villa = null;
-            if (villa == null)
-            {
-                return BadRequest();
-            }
-            patchDTO.ApplyTo(villa, ModelState);
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            return NoContent();
+        //[HttpPatch("{id:int}", Name = "UpdatePartialVilla")]
+        //[ProducesResponseType(StatusCodes.Status204NoContent)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //public IActionResult UpdatePartialVilla(int id, JsonPatchDocument<VillaDTO> patchDTO )
+        //{
+        //    if(patchDTO == null || id == 0)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    //var villa = null;
+        //    //if (villa == null)
+        //    //{
+        //    //    return BadRequest();
+        //    //}
+        //    //patchDTO.ApplyTo(villa, ModelState);
+        //    //if (!ModelState.IsValid)
+        //    //{
+        //    //    return BadRequest(ModelState);
+        //    //}
+        //    //return NoContent();
 
-        }
+        //}
 
     }
 }

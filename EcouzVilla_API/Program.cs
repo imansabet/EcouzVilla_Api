@@ -1,4 +1,6 @@
+using EcouzVilla_API.Data;
 using EcouzVilla_API.Logging;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 
-
+builder.Services.AddDbContext<ApplicationDbContext>(option => {
+    option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
+});
 builder.Services.AddControllers(options =>
 {
     options.ReturnHttpNotAcceptable = true;
