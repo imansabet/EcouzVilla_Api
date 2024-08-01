@@ -1,6 +1,8 @@
 using EcouzVilla_API;
 using EcouzVilla_API.Data;
 using EcouzVilla_API.Logging;
+using EcouzVilla_API.Repository;
+using EcouzVilla_API.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +14,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(option => {
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
 });
+
+builder.Services.AddScoped<IVillaRepository, VillaRepository>();
+
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 
 builder.Services.AddControllers(options =>
