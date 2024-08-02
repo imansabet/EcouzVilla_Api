@@ -22,14 +22,18 @@ namespace EcouzVillaNumber_API.Controllers
         private readonly IMapper _mapper;
         private readonly ILogging _logger;
         private readonly IVillaNumberRepository _dbVillaNumber;
+        private readonly IVillaRepository _dbVilla;
+
         protected APIResponse _response;
 
-        public VillaNumberAPIController(ILogging logger,IVillaNumberRepository dbVillaNumber,IMapper mapper)
+        public VillaNumberAPIController(ILogging logger,IVillaNumberRepository dbVillaNumber,IMapper mapper, IVillaRepository dbVilla)
         {
             _mapper = mapper;
             _logger = logger;
             _dbVillaNumber = dbVillaNumber;
             this._response = new();
+            _dbVilla = dbVilla;
+
         }
 
         [HttpGet]
@@ -95,11 +99,10 @@ namespace EcouzVillaNumber_API.Controllers
         {
             try
             {
-                if (await _dbVillaNumber.GetAsync(u => u.VillaNo == createDTO.VillaNo) != null)
+                if (await _dbVilla.GetAsync(u => u.Id == createDTO.VillaID) == null)
                 {
-                    ModelState.AddModelError("CustomerError", "VillaNumber Already Exists!");
-                    _response.StatusCode = HttpStatusCode.BadRequest;
-                    return BadRequest(_response);
+                    ModelState.AddModelError("CustomError", "Villa ID is Invalid!");
+                    return BadRequest(ModelState);
                 }
                 if (createDTO == null)
                 {
@@ -169,6 +172,11 @@ namespace EcouzVillaNumber_API.Controllers
                 {
                     _response.StatusCode = HttpStatusCode.BadRequest;
                     return BadRequest(_response);
+                }
+                if (await _dbVilla.GetAsync(u => u.Id == updateDTO.VillaID) == null)
+                {
+                    ModelState.AddModelError("CustomError", "Villa ID is Invalid!");
+                    return BadRequest(ModelState);
                 }
                 VillaNumber model = _mapper.Map<VillaNumber>(updateDTO);
 
