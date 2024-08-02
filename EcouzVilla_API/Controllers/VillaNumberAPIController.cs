@@ -17,14 +17,14 @@ namespace EcouzVillaNumber_API.Controllers
 {
     [Route("api/VillaNumberAPI")]
     [ApiController]
-    public class VillaNumberNumberAPIController : ControllerBase
+    public class VillaNumberAPIController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly ILogging _logger;
         private readonly IVillaNumberRepository _dbVillaNumber;
         protected APIResponse _response;
 
-        public VillaNumberNumberAPIController(ILogging logger,IVillaNumberRepository dbVillaNumber,IMapper mapper)
+        public VillaNumberAPIController(ILogging logger,IVillaNumberRepository dbVillaNumber,IMapper mapper)
         {
             _mapper = mapper;
             _logger = logger;

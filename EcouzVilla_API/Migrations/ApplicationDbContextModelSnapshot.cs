@@ -70,7 +70,7 @@ namespace EcouzVilla_API.Migrations
                         {
                             Id = 1,
                             Amenity = "",
-                            CreatedDate = new DateTime(2024, 8, 1, 19, 6, 17, 582, DateTimeKind.Local).AddTicks(641),
+                            CreatedDate = new DateTime(2024, 8, 2, 7, 53, 53, 520, DateTimeKind.Local).AddTicks(1194),
                             Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
                             ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa3.jpg",
                             Name = "Royal Villa",
@@ -83,7 +83,7 @@ namespace EcouzVilla_API.Migrations
                         {
                             Id = 2,
                             Amenity = "",
-                            CreatedDate = new DateTime(2024, 8, 1, 19, 6, 17, 582, DateTimeKind.Local).AddTicks(653),
+                            CreatedDate = new DateTime(2024, 8, 2, 7, 53, 53, 520, DateTimeKind.Local).AddTicks(1208),
                             Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
                             ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa1.jpg",
                             Name = "Premium Pool Villa",
@@ -96,7 +96,7 @@ namespace EcouzVilla_API.Migrations
                         {
                             Id = 3,
                             Amenity = "",
-                            CreatedDate = new DateTime(2024, 8, 1, 19, 6, 17, 582, DateTimeKind.Local).AddTicks(654),
+                            CreatedDate = new DateTime(2024, 8, 2, 7, 53, 53, 520, DateTimeKind.Local).AddTicks(1209),
                             Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
                             ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa4.jpg",
                             Name = "Luxury Pool Villa",
@@ -109,7 +109,7 @@ namespace EcouzVilla_API.Migrations
                         {
                             Id = 4,
                             Amenity = "",
-                            CreatedDate = new DateTime(2024, 8, 1, 19, 6, 17, 582, DateTimeKind.Local).AddTicks(655),
+                            CreatedDate = new DateTime(2024, 8, 2, 7, 53, 53, 520, DateTimeKind.Local).AddTicks(1211),
                             Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
                             ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa5.jpg",
                             Name = "Diamond Villa",
@@ -122,7 +122,7 @@ namespace EcouzVilla_API.Migrations
                         {
                             Id = 5,
                             Amenity = "",
-                            CreatedDate = new DateTime(2024, 8, 1, 19, 6, 17, 582, DateTimeKind.Local).AddTicks(657),
+                            CreatedDate = new DateTime(2024, 8, 2, 7, 53, 53, 520, DateTimeKind.Local).AddTicks(1212),
                             Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
                             ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa2.jpg",
                             Name = "Diamond Pool Villa",
