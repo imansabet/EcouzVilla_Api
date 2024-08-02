@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EcouzVilla_API", "EcouzVilla_API\EcouzVilla_API.csproj", "{4FB7AEFC-2F5D-4971-9F01-F590C58EBAD0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcouzVilla_Web", "EcouzVilla_Web\EcouzVilla_Web.csproj", "{9AB1497F-4886-4258-9BBC-9B2AF53636B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4FB7AEFC-2F5D-4971-9F01-F590C58EBAD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FB7AEFC-2F5D-4971-9F01-F590C58EBAD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FB7AEFC-2F5D-4971-9F01-F590C58EBAD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AB1497F-4886-4258-9BBC-9B2AF53636B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AB1497F-4886-4258-9BBC-9B2AF53636B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AB1497F-4886-4258-9BBC-9B2AF53636B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AB1497F-4886-4258-9BBC-9B2AF53636B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
