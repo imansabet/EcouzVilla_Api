@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Azure;
-using EcouzVilla_API.Data;
 using EcouzVilla_API.Logging;
 using EcouzVilla_API.Models;
 using EcouzVilla_API.Models.Dto;
@@ -14,34 +13,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
-namespace EcouzVilla_API.Controllers
+namespace EcouzVillaNumber_API.Controllers
 {
-    [Route("api/VillaAPI")]
+    [Route("api/VillaNumberAPI")]
     [ApiController]
-    public class VillaAPIController : ControllerBase
+    public class VillaNumberNumberAPIController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly ILogging _logger;
-        private readonly IVillaRepository _dbVilla;
+        private readonly IVillaNumberRepository _dbVillaNumber;
         protected APIResponse _response;
 
-        public VillaAPIController(ILogging logger,IVillaRepository dbVilla,IMapper mapper)
+        public VillaNumberNumberAPIController(ILogging logger,IVillaNumberRepository dbVillaNumber,IMapper mapper)
         {
             _mapper = mapper;
             _logger = logger;
-            _dbVilla = dbVilla;
+            _dbVillaNumber = dbVillaNumber;
             this._response = new();
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<APIResponse>> GetVillas()
+        public async Task<ActionResult<APIResponse>> GetVillaNumbers()
         {
             try
             {
 
-                IEnumerable<Villa> villaList = await _dbVilla.GetAllAsync();
-                _response.Result = _mapper.Map<List<VillaDTO>>(villaList);
+                IEnumerable<VillaNumber> VillaNumberList = await _dbVillaNumber.GetAllAsync();
+                _response.Result = _mapper.Map<List<VillaNumberDTO>>(VillaNumberList);
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
             }
@@ -53,29 +52,29 @@ namespace EcouzVilla_API.Controllers
             return _response;
         }
 
-        [HttpGet("{id:int}", Name = "GetVilla")]
+        [HttpGet("{id:int}", Name = "GetVillaNumber")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIResponse>> GetVilla(int id)
+        public async Task<ActionResult<APIResponse>> GetVillaNumber(int id)
         {
             try
             {
 
                 if (id == 0)
                 {
-                    _logger.Log("Get Villa Error with Id : " + id, "error");
+                    _logger.Log("Get VillaNumber Error with Id : " + id, "error");
                     _response.StatusCode = HttpStatusCode.BadRequest;
                     return BadRequest(_response);
                 }
-                var villa = await _dbVilla.GetAsync(u => u.Id == id);
-                if (villa == null)
+                var VillaNumber = await _dbVillaNumber.GetAsync(u => u.VillaNo == id);
+                if (VillaNumber == null)
                 {
                     _response.StatusCode = HttpStatusCode.NotFound;
                     return NotFound();
                 }
                 
-                _response.Result = _mapper.Map<VillaDTO>(villa);
+                _response.Result = _mapper.Map<VillaNumberDTO>(VillaNumber);
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
             }
@@ -92,13 +91,13 @@ namespace EcouzVilla_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<APIResponse>> CreateVilla([FromBody] VillaCreateDTO createDTO)
+        public async Task<ActionResult<APIResponse>> CreateVillaNumber([FromBody] VillaNumberCreateDTO createDTO)
         {
             try
             {
-                if (await _dbVilla.GetAsync(u => u.Name.ToLower() == createDTO.Name.ToLower()) != null)
+                if (await _dbVillaNumber.GetAsync(u => u.VillaNo == createDTO.VillaNo) != null)
                 {
-                    ModelState.AddModelError("CustomerError", "Villa Already Exists!");
+                    ModelState.AddModelError("CustomerError", "VillaNumber Already Exists!");
                     _response.StatusCode = HttpStatusCode.BadRequest;
                     return BadRequest(_response);
                 }
@@ -107,14 +106,14 @@ namespace EcouzVilla_API.Controllers
                     _response.StatusCode = HttpStatusCode.BadRequest;
                     return BadRequest(_response);
                 }
-                Villa villa = _mapper.Map<Villa>(createDTO);
+                VillaNumber VillaNumber = _mapper.Map<VillaNumber>(createDTO);
 
 
-                await _dbVilla.CreateAsync(villa);
-                _response.Result = _mapper.Map<VillaDTO>(villa);
+                await _dbVillaNumber.CreateAsync(VillaNumber);
+                _response.Result = _mapper.Map<VillaNumberDTO>(VillaNumber);
                 _response.StatusCode = HttpStatusCode.Created;
 
-                return CreatedAtRoute("GetVilla", new { id = villa.Id }, _response);
+                return CreatedAtRoute("GetVillaNumber", new { id = VillaNumber.VillaNo }, _response);
             }
             catch(Exception ex)
             {
@@ -125,11 +124,11 @@ namespace EcouzVilla_API.Controllers
             return _response;
         }
 
-        [HttpDelete("{id:int}", Name = "DeleteVilla")]
+        [HttpDelete("{id:int}", Name = "DeleteVillaNumber")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<APIResponse>> DeleteVilla(int id)
+        public async Task<ActionResult<APIResponse>> DeleteVillaNumber(int id)
         {
             try
             {
@@ -138,13 +137,13 @@ namespace EcouzVilla_API.Controllers
                     _response.StatusCode = HttpStatusCode.BadRequest;
                     return BadRequest(_response);
                 }
-                var villa = await _dbVilla.GetAsync(u => u.Id == id);
+                var VillaNumber = await _dbVillaNumber.GetAsync(u => u.VillaNo == id);
 
-                if (villa == null)
+                if (VillaNumber == null)
                 {
                     return NotFound();
                 }
-                await _dbVilla.RemoveAsync(villa);
+                await _dbVillaNumber.RemoveAsync(VillaNumber);
                 _response.StatusCode = HttpStatusCode.NoContent;
                 _response.IsSuccess = true;
                 return Ok(_response);
@@ -159,21 +158,21 @@ namespace EcouzVilla_API.Controllers
 
         }
 
-        [HttpPut("{id:int}", Name = "UpdateVilla")]
+        [HttpPut("{id:int}", Name = "UpdateVillaNumber")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<APIResponse>> UpdateVilla(int id, [FromBody] VillaUpdateDTO updateDTO)
+        public async Task<ActionResult<APIResponse>> UpdateVillaNumber(int id, [FromBody] VillaNumberUpdateDTO updateDTO)
         {
             try
             {
-                if (updateDTO == null || id != updateDTO.Id)
+                if (updateDTO == null || id != updateDTO.VillaNo)
                 {
                     _response.StatusCode = HttpStatusCode.BadRequest;
                     return BadRequest(_response);
                 }
-                Villa model = _mapper.Map<Villa>(updateDTO);
+                VillaNumber model = _mapper.Map<VillaNumber>(updateDTO);
 
-                await _dbVilla.UpdateAsync(model);
+                await _dbVillaNumber.UpdateAsync(model);
                 _response.StatusCode = HttpStatusCode.NoContent;
                 _response.IsSuccess = true;
                 return Ok(_response);
@@ -187,35 +186,6 @@ namespace EcouzVilla_API.Controllers
 
         }
 
-        [HttpPatch("{id:int}", Name = "UpdatePartialVilla")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdatePartialVilla(int id, JsonPatchDocument<VillaUpdateDTO> patchDTO)
-        {
-            if (patchDTO == null || id == 0)
-            {
-                _response.StatusCode = HttpStatusCode.BadRequest;
-                return BadRequest(_response);
-            }
-            var villa = await _dbVilla.GetAsync(u => u.Id == id, tracked : false);
-            if (villa == null)
-            {
-                _response.StatusCode = HttpStatusCode.BadRequest;
-                return BadRequest(_response);
-            }
-            VillaUpdateDTO villaDTO = _mapper.Map<VillaUpdateDTO>(villa);
-
-            patchDTO.ApplyTo(villaDTO, ModelState);
-            Villa model = _mapper.Map<Villa>(villaDTO);
-
-            await _dbVilla.UpdateAsync(model);
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            return NoContent();
-        }
+       
     }
 }
