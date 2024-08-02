@@ -1,8 +1,11 @@
-﻿namespace EcouzVilla_API.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace EcouzVilla_API.Models
 {
     public class Villa
     {
         public int  Id { get; set; }
+        [Required]
         public string  Name { get; set; }
         public string  Details { get; set; }
         public double  Rate { get; set; }
