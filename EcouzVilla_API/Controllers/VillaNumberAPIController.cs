@@ -43,7 +43,7 @@ namespace EcouzVillaNumber_API.Controllers
             try
             {
 
-                IEnumerable<VillaNumber> VillaNumberList = await _dbVillaNumber.GetAllAsync();
+                IEnumerable<VillaNumber> VillaNumberList = await _dbVillaNumber.GetAllAsync(includeProperties: "Villa"); ;
                 _response.Result = _mapper.Map<List<VillaNumberDTO>>(VillaNumberList);
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
