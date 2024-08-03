@@ -1,9 +1,16 @@
 ﻿using AutoMapper;
+using EcouzVilla_Utility;
 using EcouzVilla_Web.Models;
 using EcouzVilla_Web.Models.Dto;
+using EcouzVilla_Web.Models.VM;
 using EcouzVilla_Web.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using static System.Net.Mime.MediaTypeNames;
+using System.Collections.Generic;
 
 namespace EcouzVilla_Web.Controllers
 {
@@ -11,10 +18,14 @@ namespace EcouzVilla_Web.Controllers
     {
         private readonly IVillaNumberService _villaNumberService;
         private readonly IMapper _mapper;
-        public VillaNumberController(IVillaNumberService villaNumberService, IMapper mapper)
+        private readonly IVillaService _villaService;
+
+        public VillaNumberController(IVillaNumberService villaNumberService, IMapper mapper, IVillaService villaService)
         {
             _villaNumberService = villaNumberService;
             _mapper = mapper;
+            _villaService = villaService;
+
         }
         public async Task<IActionResult> IndexVillaNumber()
         {
@@ -27,5 +38,28 @@ namespace EcouzVilla_Web.Controllers
             }
             return View(list);
         }
+      
+        public async Task<IActionResult> CreateVillaNumber()
+        {
+            VillaNumberCreateVM villaNumberVM = new();
+            var response = await _villaService.GetAllAsync<APIResponse>();
+            if (response != null && response.IsSuccess)
+            {
+                villaNumberVM.VillaList = JsonConvert.DeserializeObject<List<VillaDTO>>
+                    (Convert.ToString(response.Result)).Select(i => new SelectListItem
+                    {
+                        Text = i.Name,
+                        Value = i.Id.ToString()
+                    }); ;
+            }
+            return View(villaNumberVM);
+            }
+
+
+        
+
+
+
+
     }
 }
