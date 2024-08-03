@@ -98,7 +98,7 @@ namespace EcouzVilla_API.Controllers
             {
                 if (await _dbVilla.GetAsync(u => u.Name.ToLower() == createDTO.Name.ToLower()) != null)
                 {
-                    ModelState.AddModelError("CustomerError", "Villa Already Exists!");
+                    ModelState.AddModelError("ErrorMessages", "Villa already Exists!");
                     _response.StatusCode = HttpStatusCode.BadRequest;
                     return BadRequest(_response);
                 }
