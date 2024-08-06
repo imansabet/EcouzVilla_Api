@@ -38,7 +38,11 @@ namespace EcouzVilla_API.Repository
                     u.Password == loginRequestDTO.Password);
             if (user == null)
             {
-                return null;
+                return new  LoginResponseDTO() 
+                {
+                    Token = "",
+                    User = null
+                };
             }
             // user was found ?  generate Token
             var tokenHandler = new JwtSecurityTokenHandler();
