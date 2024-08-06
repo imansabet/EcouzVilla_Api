@@ -5,6 +5,7 @@ using EcouzVilla_API.Logging;
 using EcouzVilla_API.Models;
 using EcouzVilla_API.Models.Dto;
 using EcouzVilla_API.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
@@ -34,6 +35,7 @@ namespace EcouzVilla_API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<APIResponse>> GetVillas()
         {
@@ -57,6 +59,8 @@ namespace EcouzVilla_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(Roles = "admin")]
+
         public async Task<ActionResult<APIResponse>> GetVilla(int id)
         {
             try
@@ -125,7 +129,9 @@ namespace EcouzVilla_API.Controllers
             return _response;
         }
 
+
         [HttpDelete("{id:int}", Name = "DeleteVilla")]
+        [Authorize(Roles = "CUSTOM")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
