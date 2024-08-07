@@ -39,12 +39,11 @@ namespace EcouzVilla_Web.Controllers
             }
             return View(list);
         }
-
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateVillaNumber()
         {
             VillaNumberCreateVM villaNumberVM = new();
-            var response = await _villaNumberService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.SessionToken));
+            var response = await _villaService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.SessionToken));
             if (response != null && response.IsSuccess)
             {
                 villaNumberVM.VillaList = JsonConvert.DeserializeObject<List<VillaDTO>>
@@ -52,7 +51,7 @@ namespace EcouzVilla_Web.Controllers
                     {
                         Text = i.Name,
                         Value = i.Id.ToString()
-                    }); ;
+                    }); 
             }
             return View(villaNumberVM);
         }
@@ -64,11 +63,11 @@ namespace EcouzVilla_Web.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 var response = await _villaNumberService.CreateAsync<APIResponse>(model.VillaNumber, HttpContext.Session.GetString(SD.SessionToken));
                 if (response != null && response.IsSuccess)
                 {
                     return RedirectToAction(nameof(IndexVillaNumber));
-
                 }
                 else
                 {
@@ -77,8 +76,8 @@ namespace EcouzVilla_Web.Controllers
                         ModelState.AddModelError("ErrorMessages", response.ErrorMessages.FirstOrDefault());
                     }
                 }
-
             }
+
             var resp = await _villaService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.SessionToken));
             if (resp != null && resp.IsSuccess)
             {
