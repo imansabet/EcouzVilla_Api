@@ -27,6 +27,7 @@ namespace EcouzVilla_Web.Controllers
             _villaService = villaService;
 
         }
+
         public async Task<IActionResult> IndexVillaNumber()
         {
             List<VillaNumberDTO> list = new();
@@ -38,7 +39,8 @@ namespace EcouzVilla_Web.Controllers
             }
             return View(list);
         }
-      
+
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateVillaNumber()
         {
             VillaNumberCreateVM villaNumberVM = new();
@@ -54,6 +56,8 @@ namespace EcouzVilla_Web.Controllers
             }
             return View(villaNumberVM);
         }
+
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateVillaNumber(VillaNumberCreateVM model)
@@ -87,6 +91,7 @@ namespace EcouzVilla_Web.Controllers
             }
             return View(model);
         }
+        [Authorize(Roles = "admin")]
 
         public async Task<IActionResult> UpdateVillaNumber(int villaNo)
         {
@@ -113,6 +118,8 @@ namespace EcouzVilla_Web.Controllers
 
             return NotFound();
         }
+        [Authorize(Roles = "admin")]
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -147,6 +154,7 @@ namespace EcouzVilla_Web.Controllers
             }
             return View(model);
         }
+        [Authorize(Roles = "admin")]
 
         public async Task<IActionResult> DeleteVillaNumber(int villaNo)
         {
@@ -173,7 +181,7 @@ namespace EcouzVilla_Web.Controllers
 
             return NotFound();
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteVillaNumber(VillaNumberDeleteVM model)
