@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcouzVilla_API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240802083707_ChangeNullableToFalse")]
-    partial class ChangeNullableToFalse
+    [Migration("20240807161848_initialMigration")]
+    partial class initialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,31 @@ namespace EcouzVilla_API.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("EcouzVilla_API.Models.LocalUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LocalUsers");
+                });
 
             modelBuilder.Entity("EcouzVilla_API.Models.Villa", b =>
                 {
@@ -70,7 +95,7 @@ namespace EcouzVilla_API.Migrations
                         {
                             Id = 1,
                             Amenity = "",
-                            CreatedDate = new DateTime(2024, 8, 2, 12, 7, 7, 278, DateTimeKind.Local).AddTicks(6440),
+                            CreatedDate = new DateTime(2024, 8, 7, 19, 48, 48, 326, DateTimeKind.Local).AddTicks(2549),
                             Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
                             ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa3.jpg",
                             Name = "Royal Villa",
@@ -83,7 +108,7 @@ namespace EcouzVilla_API.Migrations
                         {
                             Id = 2,
                             Amenity = "",
-                            CreatedDate = new DateTime(2024, 8, 2, 12, 7, 7, 278, DateTimeKind.Local).AddTicks(6456),
+                            CreatedDate = new DateTime(2024, 8, 7, 19, 48, 48, 326, DateTimeKind.Local).AddTicks(2560),
                             Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
                             ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa1.jpg",
                             Name = "Premium Pool Villa",
@@ -96,7 +121,7 @@ namespace EcouzVilla_API.Migrations
                         {
                             Id = 3,
                             Amenity = "",
-                            CreatedDate = new DateTime(2024, 8, 2, 12, 7, 7, 278, DateTimeKind.Local).AddTicks(6458),
+                            CreatedDate = new DateTime(2024, 8, 7, 19, 48, 48, 326, DateTimeKind.Local).AddTicks(2562),
                             Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
                             ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa4.jpg",
                             Name = "Luxury Pool Villa",
@@ -109,7 +134,7 @@ namespace EcouzVilla_API.Migrations
                         {
                             Id = 4,
                             Amenity = "",
-                            CreatedDate = new DateTime(2024, 8, 2, 12, 7, 7, 278, DateTimeKind.Local).AddTicks(6461),
+                            CreatedDate = new DateTime(2024, 8, 7, 19, 48, 48, 326, DateTimeKind.Local).AddTicks(2563),
                             Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
                             ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa5.jpg",
                             Name = "Diamond Villa",
@@ -122,7 +147,7 @@ namespace EcouzVilla_API.Migrations
                         {
                             Id = 5,
                             Amenity = "",
-                            CreatedDate = new DateTime(2024, 8, 2, 12, 7, 7, 278, DateTimeKind.Local).AddTicks(6463),
+                            CreatedDate = new DateTime(2024, 8, 7, 19, 48, 48, 326, DateTimeKind.Local).AddTicks(2564),
                             Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
                             ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa2.jpg",
                             Name = "Diamond Pool Villa",

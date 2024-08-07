@@ -30,7 +30,7 @@ namespace EcouzVilla_API.Repository
             return false;
         }
 
-        public Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO)
+        public async Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO)
         {
             var user = _db.LocalUsers
                     .FirstOrDefault(

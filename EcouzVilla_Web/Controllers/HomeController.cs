@@ -1,4 +1,5 @@
 using AutoMapper;
+using EcouzVilla_Utility;
 using EcouzVilla_Web.Models;
 using EcouzVilla_Web.Models.Dto;
 using EcouzVilla_Web.Services.IServices;
@@ -21,7 +22,7 @@ namespace EcouzVilla_Web.Controllers
         {
             List<VillaDTO> list = new();
 
-            var response = await _villaService.GetAllAsync<APIResponse>();
+            var response = await _villaService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.SessionToken));
             if (response != null && response.IsSuccess)
             {
                 list = JsonConvert.DeserializeObject<List<VillaDTO>>(Convert.ToString(response.Result));
