@@ -18,6 +18,8 @@ namespace EcouzVillaNumber_API.Controllers
 {
     [Route("api/VillaNumberAPI")]
     [ApiController]
+    [ApiVersion("1.0")]
+
     public class VillaNumberAPIController : ControllerBase
     {
         private readonly IMapper _mapper;
