@@ -7,8 +7,10 @@ using System.Net;
 
 namespace EcouzVilla_API.Controllers
 {
-    [Route("api/UsersAuth")]
+    [Route("api/v{version:apiVersion}/UsersAuth")]
     [ApiController]
+    [ApiVersion("1.0")]
+
     public class UserController : Controller
     {
         private readonly IUserRepository _userRepo;

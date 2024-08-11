@@ -17,8 +17,10 @@ using System.Net;
 
 namespace EcouzVilla_API.Controllers
 {
-    [Route("api/VillaAPI")]
+    [Route("api/v{version:apiVersion}/VillaAPI")]
     [ApiController]
+    [ApiVersion("1.0")]
+
     public class VillaAPIController : ControllerBase
     {
         private readonly IMapper _mapper;
