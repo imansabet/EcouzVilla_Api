@@ -14,12 +14,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
-namespace EcouzVillaNumber_API.Controllers
+namespace EcouzVilla_API.Controllers.v1
 {
     [Route("api/v{version:apiVersion}/VillaNumberAPI")]
     [ApiController]
     [ApiVersion("1.0")]
-    [ApiVersion("2.0")]
 
 
     public class VillaNumberAPIController : ControllerBase
@@ -31,19 +30,19 @@ namespace EcouzVillaNumber_API.Controllers
 
         protected APIResponse _response;
 
-        public VillaNumberAPIController(ILogging logger,IVillaNumberRepository dbVillaNumber,IMapper mapper, IVillaRepository dbVilla)
+        public VillaNumberAPIController(ILogging logger, IVillaNumberRepository dbVillaNumber, IMapper mapper, IVillaRepository dbVilla)
         {
             _mapper = mapper;
             _logger = logger;
             _dbVillaNumber = dbVillaNumber;
-            this._response = new();
+            _response = new();
             _dbVilla = dbVilla;
 
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [MapToApiVersion("1.0")]
+        //[MapToApiVersion("1.0")]
         public async Task<ActionResult<APIResponse>> GetVillaNumbers()
         {
             try
@@ -54,7 +53,7 @@ namespace EcouzVillaNumber_API.Controllers
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _response.IsSuccess = false;
                 _response.ErrorMessages = new List<string>() { ex.ToString() };
@@ -62,12 +61,7 @@ namespace EcouzVillaNumber_API.Controllers
             return _response;
         }
 
-        [HttpGet]
-        [MapToApiVersion("2.0")]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+
 
 
 
@@ -92,12 +86,12 @@ namespace EcouzVillaNumber_API.Controllers
                     _response.StatusCode = HttpStatusCode.NotFound;
                     return NotFound();
                 }
-                
+
                 _response.Result = _mapper.Map<VillaNumberDTO>(VillaNumber);
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _response.IsSuccess = false;
                 _response.ErrorMessages = new List<string>() { ex.ToString()
@@ -140,10 +134,10 @@ namespace EcouzVillaNumber_API.Controllers
 
                 return CreatedAtRoute("GetVillaNumber", new { id = VillaNumber.VillaNo }, _response);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _response.IsSuccess = false;
-                _response.ErrorMessages = new List<string>() { ex.ToString()};
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
             }
 
             return _response;
@@ -220,6 +214,6 @@ namespace EcouzVillaNumber_API.Controllers
 
         }
 
-       
+
     }
 }
