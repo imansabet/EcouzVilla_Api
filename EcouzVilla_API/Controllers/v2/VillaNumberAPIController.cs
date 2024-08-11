@@ -40,11 +40,11 @@ namespace EcouzVilla_API.Controllers.v2
 
         }
 
-        [HttpGet]
+        [HttpGet("GetString")]
         //[MapToApiVersion("2.0")]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new string[] { "iman", "sabet" };
         }
 
 

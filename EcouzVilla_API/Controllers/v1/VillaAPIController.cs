@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
-namespace EcouzVilla_API.Controllers
+namespace EcouzVilla_API.Controllers.v1
 {
     [Route("api/v{version:apiVersion}/VillaAPI")]
     [ApiController]
@@ -28,16 +28,16 @@ namespace EcouzVilla_API.Controllers
         private readonly IVillaRepository _dbVilla;
         protected APIResponse _response;
 
-        public VillaAPIController(ILogging logger,IVillaRepository dbVilla,IMapper mapper)
+        public VillaAPIController(ILogging logger, IVillaRepository dbVilla, IMapper mapper)
         {
             _mapper = mapper;
             _logger = logger;
             _dbVilla = dbVilla;
-            this._response = new();
+            _response = new();
         }
 
         [HttpGet]
-        
+
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -51,7 +51,7 @@ namespace EcouzVilla_API.Controllers
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _response.IsSuccess = false;
                 _response.ErrorMessages = new List<string>() { ex.ToString() };
@@ -81,12 +81,12 @@ namespace EcouzVilla_API.Controllers
                     _response.StatusCode = HttpStatusCode.NotFound;
                     return NotFound();
                 }
-                
+
                 _response.Result = _mapper.Map<VillaDTO>(villa);
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _response.IsSuccess = false;
                 _response.ErrorMessages = new List<string>() { ex.ToString()
@@ -127,10 +127,10 @@ namespace EcouzVilla_API.Controllers
 
                 return CreatedAtRoute("GetVilla", new { id = villa.Id }, _response);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _response.IsSuccess = false;
-                _response.ErrorMessages = new List<string>() { ex.ToString()};
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
             }
 
             return _response;
@@ -212,7 +212,7 @@ namespace EcouzVilla_API.Controllers
                 _response.StatusCode = HttpStatusCode.BadRequest;
                 return BadRequest(_response);
             }
-            var villa = await _dbVilla.GetAsync(u => u.Id == id, tracked : false);
+            var villa = await _dbVilla.GetAsync(u => u.Id == id, tracked: false);
             if (villa == null)
             {
                 _response.StatusCode = HttpStatusCode.BadRequest;

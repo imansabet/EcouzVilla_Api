@@ -18,7 +18,7 @@ namespace EcouzVilla_API.Controllers.v1
 {
     [Route("api/v{version:apiVersion}/VillaNumberAPI")]
     [ApiController]
-    [ApiVersion("1.0")]
+    [ApiVersion("1.0",Deprecated =true)]
 
 
     public class VillaNumberAPIController : ControllerBase
@@ -39,6 +39,14 @@ namespace EcouzVilla_API.Controllers.v1
             _dbVilla = dbVilla;
 
         }
+
+        [HttpGet("GetString")]
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "string1", "string2" };
+        }
+
+
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
