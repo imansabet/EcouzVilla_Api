@@ -33,6 +33,7 @@ builder.Services.AddApiVersioning(options => {
 builder.Services.AddVersionedApiExplorer(options =>
 {
     options.GroupNameFormat = "'v'VVV";
+    options.SubstituteApiVersionInUrl = true;
 });
 
 
@@ -94,14 +95,21 @@ builder.Services.AddSwaggerGen(options => {
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1.0",
-        Title = "Magic Villa",
+        Title = "Ecouz Villa V1",
         Description = "API to manage Villa",
         TermsOfService = new Uri("https://example.com/terms"),
-        Contact = new OpenApiContact
+        License = new OpenApiLicense
         {
-            Name = "Dotnetmastery",
-            Url = new Uri("https://dotnetmastery.com")
-        },
+            Name = "Example License",
+            Url = new Uri("https://example.com/license")
+        }
+    });
+    options.SwaggerDoc("v2", new OpenApiInfo
+    {
+        Version = "v2.0",
+        Title = "Ecouz Villa V2",
+        Description = "API to manage Villa",
+        TermsOfService = new Uri("https://example.com/terms"),
         License = new OpenApiLicense
         {
             Name = "Example License",
@@ -109,6 +117,7 @@ builder.Services.AddSwaggerGen(options => {
         }
     });
 }); 
+
 
 builder.Services.AddScoped<ILogging,Logging>();
 
@@ -119,7 +128,9 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(options => {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "EcouzVilla_API");
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "EcouzVilla_APIV1");
+        options.SwaggerEndpoint("/swagger/v2/swagger.json", "EcouzVilla_APIV2");
+
     });}
 
 app.UseHttpsRedirection();
