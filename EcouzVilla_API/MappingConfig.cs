@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EcouzVilla_API.Models.Dto;
 using EcouzVilla_API.Models;
+using EcouzVilla_API.Data;
 
 namespace EcouzVilla_API
 {
@@ -18,6 +19,10 @@ namespace EcouzVilla_API
 
             CreateMap<VillaNumber, VillaNumberCreateDTO>().ReverseMap();
             CreateMap<VillaNumber, VillaNumberUpdateDTO>().ReverseMap();
+
+
+            CreateMap<ApplicationUser, UserDTO>().ReverseMap();
+
         }
     }
 }
